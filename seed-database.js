@@ -205,26 +205,29 @@ const seedDatabase = async () => {
     
     // Seed Pricing
     await Pricing.create({
-      travelFee: {
+      travelFeePackage: {
         title: 'Travel Fee',
-        price: '£50',
+        originalPrice: 90,
+        discountedPrice: 70,
         options: [
-          'Within London Zone 1-2',
-          'Therapist travels to your location',
-          'Equipment included'
-        ],
-        safetyNotice: 'All therapists follow strict safety protocols'
+          { duration: '60 MINUTE', price: '£70.00 +15 TRAVEL FEE' },
+          { duration: '90 MINUTE', price: '£90.00 +15 TRAVEL FEE' },
+          { duration: '120 MINUTE', price: '£110.00 +15 TRAVEL FEE' }
+        ]
       },
       uberPackage: {
         title: 'Uber Package',
-        price: '£120',
+        originalPrice: 130,
+        discountedPrice: 110,
         options: [
-          '90-minute session',
-          'Premium oils and aromatherapy',
-          'Hot stone treatment included',
-          'Aftercare recommendations'
-        ],
-        safetyNotice: 'Enhanced safety measures and premium experience'
+          { duration: '60 MINUTE', price: '£110+UBER' },
+          { duration: '90 MINUTE', price: '£145+UBER' },
+          { duration: '120 MINUTE', price: '£180+UBER' }
+        ]
+      },
+      safetyNotice: {
+        heading: '* MASSAGE TRAVEL FEE ARE REQUIRED',
+        content: 'All massage sessions require travel fee payment'
       }
     });
     console.log('✅ Pricing seeded');
