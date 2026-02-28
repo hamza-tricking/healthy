@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Pricing = require('../../../models/Pricing');
+const Pricing = require('../../models/Pricing');
 
 // PUT update pricing content
 router.put('/', async (req, res) => {

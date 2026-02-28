@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const WhyChooseUs = require('../../../models/WhyChooseUs');
+const WhyChooseUs = require('../../models/WhyChooseUs');
 
 // PUT update why choose us content
 router.put('/', async (req, res) => {

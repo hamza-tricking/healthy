@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Location = require('../../../models/Location');
+const Location = require('../../models/Location');
 
 // PUT update location content
 router.put('/', async (req, res) => {
