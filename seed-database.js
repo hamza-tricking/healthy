@@ -172,21 +172,33 @@ const seedDatabase = async () => {
     await Service.create([
       {
         name: 'Swedish Massage',
-        image: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        description: 'A gentle, relaxing massage technique that uses long strokes, kneading, and circular movements to help relax and energize you.',
+        image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        description: 'Relaxing full-body massage using long, smooth strokes to improve circulation and reduce stress.',
         order: 1
       },
       {
-        name: 'Deep Tissue Massage',
-        image: 'https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        description: 'Targets the deeper layers of muscle and connective tissue to relieve chronic pain and tension.',
+        name: 'Deep Tissue',
+        image: 'https://images.unsplash.com/photo-1662467191034-9cc663f1de92?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        description: 'Therapeutic massage targeting deeper muscle layers to release chronic tension and alleviate pain.',
         order: 2
       },
       {
-        name: 'Hot Stone Therapy',
-        image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        description: 'Smooth, heated stones are placed on specific points of the body to warm and loosen tight muscles.',
+        name: 'Couples massage',
+        image: 'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        description: 'Romantic side-by-side massage experience for two people to enjoy relaxation together in a serene setting.',
         order: 3
+      },
+      {
+        name: 'Aromatherapy',
+        image: 'https://images.unsplash.com/photo-1598556146869-aeb261893c35?q=80&w=1197&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        description: 'Essential oil massage combining therapeutic touch with aromatic benefits for mind and body.',
+        order: 4
+      },
+      {
+        name: 'Sports Massage',
+        image: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        description: 'Specialized techniques for athletes to prevent injury and enhance performance and recovery.',
+        order: 5
       }
     ]);
     console.log('✅ Services seeded');
@@ -195,60 +207,65 @@ const seedDatabase = async () => {
     await Pricing.create({
       travelFee: {
         title: 'Travel Fee',
-        price: '£50',
+        timeRange: 'Price from 9:00 AM until 11.00 PM',
+        originalPrice: '£90',
+        currentPrice: '£70',
         options: [
-          'Within London Zone 1-2',
-          'Therapist travels to your location',
-          'Equipment included'
+          '60 MINUTE - £70.00 +15 TRAVEL FEE',
+          '90 MINUTE - £90.00 +15 TRAVEL FEE',
+          '120 MINUTE - £110.00 +15 TRAVEL FEE'
         ],
-        safetyNotice: 'All therapists follow strict safety protocols'
+        safetyNotice: '* MASSAGE TRAVEL FEE ARE REQUIRED'
       },
       uberPackage: {
         title: 'Uber Package',
-        price: '£120',
+        timeRange: 'Price from 11.00 PM until 2:00 AM',
+        originalPrice: '£130',
+        currentPrice: '£110',
         options: [
-          '90-minute session',
-          'Premium oils and aromatherapy',
-          'Hot stone treatment included',
-          'Aftercare recommendations'
+          '60 MINUTE - £110+UBER',
+          '90 MINUTE - £145+UBER',
+          '120 MINUTE - £180+UBER'
         ],
-        safetyNotice: 'Enhanced safety measures and premium experience'
+        safetyNotice: '* MASSAGE TRAVEL FEE ARE REQUIRED'
       }
     });
     console.log('✅ Pricing seeded');
     
     // Seed Location
     await Location.create({
-      backgroundImage: 'https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      address: '123 Wellness Street, London, UK',
-      phone: '+44 20 7123 4567',
-      email: 'info@healthymassage.com',
-      hours: 'Mon-Sat: 9:00 AM - 8:00 PM, Sun: 10:00 AM - 6:00 PM',
-      googleMapsEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2475.123456789!2d-0.123456!3d51.507351!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zM!5e0!3m2!1sen!2suk!4v1234567890'
+      backgroundImage: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      address: 'United Kingdom\nLondon area',
+      phone: '+44 7400 415437',
+      email: 'info@massagetherapy.co.uk',
+      hours: 'Monday - Sunday: 9:00 AM - 2:00 AM',
+      googleMapsEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2482.432384928423!2d-0.122920684423873!3d51.51121371806905!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487604ca7d2d3b7b%3A0x4f3b5b5b5b5b5b5b!2sCovent%20Garden%2C%20London%2C%20UK!5e0!3m2!1sen!2sus!4v1234567890'
     });
     console.log('✅ Location seeded');
     
     // Seed WhyChooseUs
     await WhyChooseUs.create({
       mainImage: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      mainHeading: 'Why Choose Healthy Massage?',
-      mainDescription: 'We provide exceptional massage therapy services that promote healing, relaxation, and overall well-being.',
+      mainHeading: 'Why Choose Us',
+      mainDescription: 'Experience the difference with our premium massage therapy services',
+      subHeading: 'Your Wellness Journey Begins Here',
+      subDescription: 'At our massage therapy center, we combine ancient healing techniques with modern wellness practices to provide you with an unparalleled relaxation experience. Our expert therapists are dedicated to helping you achieve optimal physical and mental well-being.',
       features: [
         {
-          title: 'Expert Therapists',
-          description: 'Our certified massage therapists have years of experience and specialize in various techniques.'
+          title: 'Certified Professionals',
+          description: 'All our therapists are fully certified and continuously trained in the latest massage techniques.'
         },
         {
-          title: 'Personalized Treatment',
-          description: 'Each session is tailored to your specific needs and preferences for optimal results.'
+          title: 'Flexible Scheduling',
+          description: 'Book appointments at your convenience with our extended hours from 9 AM to 2 AM.'
         },
         {
-          title: 'Premium Quality',
-          description: 'We use only the finest oils, lotions, and equipment to ensure a luxurious experience.'
+          title: 'Personalized Care',
+          description: 'Each session is tailored to your specific needs and preferences for maximum benefit.'
         },
         {
-          title: 'Convenient Location',
-          description: 'Centrally located in London with easy access and flexible scheduling options.'
+          title: 'Mobile Service',
+          description: 'Enjoy our professional massage therapy in the comfort of your own home.'
         }
       ]
     });
