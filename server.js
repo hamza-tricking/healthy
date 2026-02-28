@@ -33,6 +33,23 @@ app.use('/api/admin/services', require('./routes/admin/services'));
 app.use('/api/admin/pricing', require('./routes/admin/pricing'));
 app.use('/api/admin/location', require('./routes/admin/location'));
 
+// Root route for health check
+app.get('/', (req, res) => {
+  res.json({ 
+    message: 'Healthy Massage Backend API',
+    status: 'running',
+    endpoints: {
+      api: '/api',
+      hero: '/api/hero',
+      team: '/api/team',
+      services: '/api/services',
+      pricing: '/api/pricing',
+      location: '/api/location',
+      admin: '/api/admin'
+    }
+  });
+});
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
