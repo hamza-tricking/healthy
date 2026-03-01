@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 const Location = require('../models/Location');
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/healthy');
+mongoose.connect(process.env.MONGODB_URI);
 
 const seedLocation = async () => {
   try {
@@ -22,7 +23,7 @@ const seedLocation = async () => {
         email: 'info@massagetherapy.co.uk'
       },
       hours: 'Monday - Sunday: 9:00 AM - 2:00 AM',
-      mapEmbedUrl: 'https://maps.app.goo.gl/e1L4HqAyKnA3DsKH8'
+      mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2482.432384928423!2d-0.122920684423873!3d51.51121371806905!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487604ca7d2d3b7b%3A0x4f3b5b5b5b5b5b5b!2sCovent%20Garden%2C%20London%2C%20UK!5e0!3m2!1sen!2sus!4v1234567890'
     };
 
     // Insert the location data
