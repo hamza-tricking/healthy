@@ -2,8 +2,9 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 const Location = require('../models/Location');
 
-// MongoDB connection
-mongoose.connect(process.env.MONGODB_URI);
+// MongoDB connection with fallback
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/healthy';
+mongoose.connect(mongoURI);
 
 const seedLocation = async () => {
   try {

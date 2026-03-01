@@ -6,8 +6,9 @@ const Pricing = require('../models/Pricing');
 
 async function seedPricingData() {
   try {
-    // Connect to MongoDB
-    await mongoose.connect(process.env.MONGODB_URI);
+    // Connect to MongoDB with fallback
+    const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/healthy';
+    await mongoose.connect(mongoURI);
     console.log('✅ Connected to MongoDB');
 
     // Delete any existing pricing data

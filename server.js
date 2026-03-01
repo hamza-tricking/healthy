@@ -11,7 +11,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: ['https://dmtart.pro', 'http://localhost:3000'],
+  origin: ['https://dmtart.pro', 'https://healinghoure.vercel.app', 'http://localhost:3000'],
   credentials: true
 }));
 app.use(express.json());
