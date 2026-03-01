@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 // Import the Pricing model
-const Pricing = require('./models/Pricing');
+const Pricing = require('../models/Pricing');
 
 async function seedPricingData() {
   try {
