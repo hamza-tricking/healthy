@@ -1,43 +1,29 @@
 const mongoose = require('mongoose');
 
 const pricingSchema = new mongoose.Schema({
-  // Simple structure for server compatibility
-  travelFee: {
-    title: { type: String, required: true },
-    price: { type: String, required: true },
-    options: [{ type: String }],
-    safetyNotice: { type: String }
-  },
-  uberPackage: {
-    title: { type: String, required: true },
-    price: { type: String, required: true },
-    options: [{ type: String }],
-    safetyNotice: { type: String }
-  },
-  // Complex structure for home page
   travelFeePackage: {
-    title: { type: String },
-    timeRange: { type: String },
-    originalPrice: { type: Number },
-    discountedPrice: { type: Number },
+    title: { type: String, required: true, default: 'Travel Fee' },
+    timeRange: { type: String, required: true, default: 'Price from 9:00 AM until 11.00 PM' },
+    originalPrice: { type: Number, required: true, default: 90 },
+    discountedPrice: { type: Number, required: true, default: 70 },
     options: [{
-      duration: { type: String },
-      price: { type: String }
+      duration: { type: String, required: true },
+      price: { type: String, required: true }
     }]
   },
   uberPackageComplex: {
-    title: { type: String },
-    timeRange: { type: String },
-    originalPrice: { type: Number },
-    discountedPrice: { type: Number },
+    title: { type: String, required: true, default: 'Uber Package' },
+    timeRange: { type: String, required: true, default: 'Price from 11.00 PM until 2:00 AM' },
+    originalPrice: { type: Number, required: true, default: 130 },
+    discountedPrice: { type: Number, required: true, default: 110 },
     options: [{
-      duration: { type: String },
-      price: { type: String }
+      duration: { type: String, required: true },
+      price: { type: String, required: true }
     }]
   },
   safetyNotice: {
-    heading: { type: String },
-    content: { type: String }
+    heading: { type: String, required: true, default: '* MASSAGE TRAVEL FEE ARE REQUIRED' },
+    content: { type: String, required: true, default: 'All massage sessions require travel fee payment' }
   }
 }, {
   timestamps: true
