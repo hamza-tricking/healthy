@@ -2,10 +2,7 @@ const mongoose = require('mongoose');
 const Location = require('../models/Location');
 
 // MongoDB connection
-mongoose.connect('mongodb://localhost:27017/healthy', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect('mongodb://localhost:27017/healthy');
 
 const seedLocation = async () => {
   try {
