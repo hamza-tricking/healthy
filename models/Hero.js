@@ -1,10 +1,6 @@
 const mongoose = require('mongoose');
 
 const heroSchema = new mongoose.Schema({
-  logoUrl: { 
-    type: String, 
-    default: "https://via.placeholder.com/150x50.png?text=LOGO" 
-  },
   carouselImages: [{
     url: { type: String, required: true },
     alt: { type: String, required: true }
