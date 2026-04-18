@@ -24,6 +24,7 @@ app.use('/api/why-choose-us', require('./routes/api/whyChooseUs'));
 app.use('/api/services', require('./routes/api/services'));
 app.use('/api/pricing', require('./routes/api/pricing'));
 app.use('/api/location', require('./routes/api/location'));
+app.use('/api/contact', require('./routes/api/contact'));
 
 // Admin Routes
 app.use('/api/admin/hero', require('./routes/admin/hero'));
@@ -32,6 +33,7 @@ app.use('/api/admin/why-choose-us', require('./routes/admin/whyChooseUs'));
 app.use('/api/admin/services', require('./routes/admin/services'));
 app.use('/api/admin/pricing', require('./routes/admin/pricing'));
 app.use('/api/admin/location', require('./routes/admin/location'));
+app.use('/api/admin/contact', require('./routes/admin/contact'));
 
 // Root route for health check
 app.get('/', (req, res) => {
@@ -45,6 +47,7 @@ app.get('/', (req, res) => {
       services: '/api/services',
       pricing: '/api/pricing',
       location: '/api/location',
+      contact: '/api/contact',
       admin: '/api/admin'
     }
   });
