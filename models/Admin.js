@@ -38,20 +38,6 @@ const AdminSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Hash password before saving
-AdminSchema.pre('save', async function(next) {
-  // Only hash the password if it has been modified (or is new)
-  if (!this.isModified('password')) return next();
-  
-  try {
-    // Hash password with cost of 12
-    const salt = await bcrypt.genSalt(12);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
-  } catch (error) {
-    return next(error);
-  }
-});
 
 // Compare password method
 AdminSchema.methods.comparePassword = async function(candidatePassword) {

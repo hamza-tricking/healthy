@@ -190,8 +190,13 @@ class AdminAuthController {
         });
       }
 
-      // Update password (the pre-save hook will hash it)
-      admin.password = newPassword;
+      // Hash new password before updating
+      const bcrypt = require('bcryptjs');
+      const salt = await bcrypt.genSalt(12);
+      const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+      // Update password
+      admin.password = hashedPassword;
       await admin.save();
 
       // Mark OTP as used
@@ -244,11 +249,16 @@ class AdminAuthController {
         });
       }
 
+      // Hash password before creating admin
+      const bcrypt = require('bcryptjs');
+      const salt = await bcrypt.genSalt(12);
+      const hashedPassword = await bcrypt.hash(password, salt);
+
       // Create new admin
       const admin = new Admin({
         username: username.toLowerCase().trim(),
         email: email.toLowerCase().trim(),
-        password: password // Will be hashed by pre-save hook
+        password: hashedPassword
       });
 
       await admin.save();
