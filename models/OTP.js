@@ -46,17 +46,15 @@ OTPSchema.index({ otp: 1 });
 OTPSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
 // Pre-save middleware to invalidate existing OTPs for same email and purpose
-OTPSchema.pre('save', async function(next) {
+OTPSchema.pre('save', function(next) {
   if (this.isNew) {
-    try {
-      await this.constructor.deleteMany({
-        email: this.email,
-        purpose: this.purpose,
-        isUsed: false
-      });
-    } catch (error) {
+    this.constructor.deleteMany({
+      email: this.email,
+      purpose: this.purpose,
+      isUsed: false
+    }).catch(error => {
       console.error('Error invalidating existing OTPs:', error);
-    }
+    });
   }
   next();
 });
