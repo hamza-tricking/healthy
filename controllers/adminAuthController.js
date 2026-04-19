@@ -100,21 +100,13 @@ class AdminAuthController {
       }
 
       // Send OTP using the existing OTP controller
-      const otpResponse = await OTPController.sendOTP({
+      // Note: OTPController.sendOTP handles the response
+      await OTPController.sendOTP({
         body: {
           email: email.toLowerCase().trim(),
           purpose: 'password_reset'
         }
       }, res);
-
-      // If OTP was sent successfully
-      res.status(200).json({
-        success: true,
-        message: 'Password reset code sent to your email',
-        data: {
-          email: email.toLowerCase().trim()
-        }
-      });
 
     } catch (error) {
       console.error('Error in sendPasswordResetOTP:', error);
