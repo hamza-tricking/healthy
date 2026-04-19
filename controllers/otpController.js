@@ -39,6 +39,13 @@ class OTPController {
       // Generate OTP
       const otp = OTPController.generateOTP();
 
+      // Clean up existing OTPs for this email and purpose
+      await OTP.deleteMany({
+        email: email.toLowerCase().trim(),
+        purpose,
+        isUsed: false
+      });
+
       // Save OTP to database
       const otpRecord = new OTP({
         email: email.toLowerCase().trim(),

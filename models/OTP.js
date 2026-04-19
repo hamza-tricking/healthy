@@ -45,18 +45,5 @@ OTPSchema.index({ otp: 1 });
 // TTL index to automatically expire OTPs
 OTPSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
-// Pre-save middleware to invalidate existing OTPs for same email and purpose
-OTPSchema.pre('save', function(next) {
-  if (this.isNew) {
-    this.constructor.deleteMany({
-      email: this.email,
-      purpose: this.purpose,
-      isUsed: false
-    }).catch(error => {
-      console.error('Error invalidating existing OTPs:', error);
-    });
-  }
-  next();
-});
 
 module.exports = mongoose.model('OTP', OTPSchema);
