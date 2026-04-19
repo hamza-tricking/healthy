@@ -26,6 +26,9 @@ app.use('/api/pricing', require('./routes/api/pricing'));
 app.use('/api/location', require('./routes/api/location'));
 app.use('/api/contact', require('./routes/api/contact'));
 
+// OTP Routes
+app.use('/api/otp', require('./routes/otp'));
+
 // Admin Routes
 app.use('/api/admin/hero', require('./routes/admin/hero'));
 app.use('/api/admin/team', require('./routes/admin/team'));
