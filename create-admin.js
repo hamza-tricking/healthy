@@ -23,11 +23,16 @@ const createInitialAdmin = async () => {
       process.exit(0);
     }
 
+    // Hash password before creating admin
+    const bcrypt = require('bcryptjs');
+    const salt = await bcrypt.genSalt(12);
+    const hashedPassword = await bcrypt.hash('adminhealing', salt);
+
     // Create initial admin
     const admin = new Admin({
       username: 'healingadmin',
       email: 'Massagetherapy696@outlook.com',
-      password: 'adminhealing', // This will be hashed automatically
+      password: hashedPassword,
       role: 'super_admin'
     });
 
