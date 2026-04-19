@@ -40,7 +40,6 @@ const OTPSchema = new mongoose.Schema({
 
 // Index for better query performance
 OTPSchema.index({ email: 1, purpose: 1 });
-OTPSchema.index({ expiresAt: 1 });
 OTPSchema.index({ otp: 1 });
 
 // TTL index to automatically expire OTPs
