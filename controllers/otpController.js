@@ -37,7 +37,7 @@ class OTPController {
       }
 
       // Generate OTP
-      const otp = this.generateOTP();
+      const otp = OTPController.generateOTP();
 
       // Save OTP to database
       const otpRecord = new OTP({
@@ -183,7 +183,7 @@ class OTPController {
       }
 
       // Generate and send new OTP
-      return this.sendOTP(req, res);
+      return OTPController.sendOTP(req, res);
 
     } catch (error) {
       console.error('Error in resendOTP:', error);
