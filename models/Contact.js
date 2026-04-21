@@ -75,6 +75,10 @@ const ContactSchema = new mongoose.Schema({
     type: String,
     trim: true,
     default: ''
+  },
+  seen: {
+    type: Boolean,
+    default: false
   }
 }, {
   timestamps: true
@@ -84,5 +88,6 @@ const ContactSchema = new mongoose.Schema({
 ContactSchema.index({ createdAt: -1 });
 ContactSchema.index({ status: 1 });
 ContactSchema.index({ email: 1 });
+ContactSchema.index({ seen: 1 });
 
 module.exports = mongoose.model('Contact', ContactSchema);
