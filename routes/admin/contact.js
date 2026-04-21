@@ -94,6 +94,28 @@ router.get('/recent-unseen', async (req, res) => {
   }
 });
 
+// GET /api/admin/contact/recent-all - Get all recent contacts for dropdown
+router.get('/recent-all', async (req, res) => {
+  try {
+    const contacts = await Contact.find()
+      .sort({ createdAt: -1 })
+      .limit(10)
+      .select('fullName email massageType preferredDate preferredTime createdAt');
+    
+    res.json({
+      success: true,
+      data: contacts
+    });
+    
+  } catch (error) {
+    console.error('Error fetching recent contacts:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error'
+    });
+  }
+});
+
 // PUT /api/admin/contact/mark-all-seen - Mark all contacts as seen
 router.put('/mark-all-seen', async (req, res) => {
   try {
