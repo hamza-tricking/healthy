@@ -164,13 +164,17 @@ class AdminAuthController {
       console.log('🔍 OTP code provided:', otp);
       
       // Create a mock response object for OTP verification
+      let verifyResponse = null;
       const mockRes = {
         status: (code) => ({
-          json: (data) => ({ success: data.success, data: data.data })
+          json: (data) => {
+            verifyResponse = { success: data.success, data: data.data };
+            return verifyResponse;
+          }
         })
       };
       
-      const verifyResponse = await OTPController.verifyOTP({
+      await OTPController.verifyOTP({
         body: {
           email: email.toLowerCase().trim(),
           otp: otp,
