@@ -24,6 +24,7 @@ class AdminAuthController {
       }
 
       // Find admin by username or email
+      console.log('🔍 Looking for admin with:', username.toLowerCase().trim());
       const admin = await Admin.findOne({
         $or: [
           { username: username.toLowerCase().trim() },
@@ -33,14 +34,19 @@ class AdminAuthController {
       });
 
       if (!admin) {
+        console.log('❌ Admin not found');
         return res.status(401).json({
           success: false,
           message: 'Invalid credentials'
         });
       }
 
+      console.log('✅ Admin found:', admin.email);
+      console.log('🔍 Comparing password...');
+      
       // Check password
       const isPasswordValid = await admin.comparePassword(password);
+      console.log('🔍 Password valid:', isPasswordValid);
       if (!isPasswordValid) {
         return res.status(401).json({
           success: false,
