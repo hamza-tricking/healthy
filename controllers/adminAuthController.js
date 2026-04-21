@@ -9,6 +9,10 @@ class AdminAuthController {
    */
   static async login(req, res) {
     try {
+      console.log('🔍 login called');
+      console.log('Request body:', req.body);
+      console.log('Request URL:', req.originalUrl);
+      
       const { username, password } = req.body;
 
       // Validate input
@@ -76,6 +80,10 @@ class AdminAuthController {
    */
   static async sendPasswordResetOTP(req, res) {
     try {
+      console.log('🔍 sendPasswordResetOTP called');
+      console.log('Request body:', req.body);
+      console.log('Request URL:', req.originalUrl);
+      
       const { email } = req.body;
 
       // Validate input

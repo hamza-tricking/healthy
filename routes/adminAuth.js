@@ -7,14 +7,24 @@ const AdminAuthController = require('../controllers/adminAuthController');
  * Admin login
  * Body: { username, password }
  */
-router.post('/login', AdminAuthController.login);
+router.post('/login', (req, res) => {
+  console.log('📍 Route /login hit');
+  console.log('Method:', req.method);
+  console.log('URL:', req.originalUrl);
+  AdminAuthController.login(req, res);
+});
 
 /**
  * POST /api/admin-auth/send-reset-otp
  * Send password reset OTP
  * Body: { email }
  */
-router.post('/send-reset-otp', AdminAuthController.sendPasswordResetOTP);
+router.post('/send-reset-otp', (req, res) => {
+  console.log('📍 Route /send-reset-otp hit');
+  console.log('Method:', req.method);
+  console.log('URL:', req.originalUrl);
+  AdminAuthController.sendPasswordResetOTP(req, res);
+});
 
 /**
  * POST /api/admin-auth/reset-password
