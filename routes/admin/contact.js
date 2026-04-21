@@ -53,6 +53,70 @@ router.get('/', async (req, res) => {
   }
 });
 
+// GET /api/admin/contact/unseen-count - Get count of unseen contacts
+router.get('/unseen-count', async (req, res) => {
+  try {
+    const count = await Contact.countDocuments({ seen: false });
+    
+    res.json({
+      success: true,
+      data: count
+    });
+    
+  } catch (error) {
+    console.error('Error fetching unseen count:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error'
+    });
+  }
+});
+
+// GET /api/admin/contact/recent-unseen - Get recent unseen contacts for notifications
+router.get('/recent-unseen', async (req, res) => {
+  try {
+    const contacts = await Contact.find({ seen: false })
+      .sort({ createdAt: -1 })
+      .limit(10)
+      .select('fullName email massageType preferredDate preferredTime createdAt');
+    
+    res.json({
+      success: true,
+      data: contacts
+    });
+    
+  } catch (error) {
+    console.error('Error fetching recent unseen contacts:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error'
+    });
+  }
+});
+
+// PUT /api/admin/contact/mark-all-seen - Mark all contacts as seen
+router.put('/mark-all-seen', async (req, res) => {
+  try {
+    const result = await Contact.updateMany(
+      { seen: false },
+      { seen: true }
+    );
+    
+    res.json({
+      success: true,
+      message: `Marked ${result.modifiedCount} contacts as seen`,
+      modifiedCount: result.modifiedCount
+    });
+    
+  } catch (error) {
+    console.error('Error marking contacts as seen:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error'
+    });
+  }
+});
+
 // GET /api/admin/contact/:id - Get single contact submission
 router.get('/:id', async (req, res) => {
   try {
@@ -135,70 +199,6 @@ router.delete('/:id', async (req, res) => {
     
   } catch (error) {
     console.error('Error deleting contact:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Server error'
-    });
-  }
-});
-
-// PUT /api/admin/contact/mark-all-seen - Mark all contacts as seen
-router.put('/mark-all-seen', async (req, res) => {
-  try {
-    const result = await Contact.updateMany(
-      { seen: false },
-      { seen: true }
-    );
-    
-    res.json({
-      success: true,
-      message: `Marked ${result.modifiedCount} contacts as seen`,
-      modifiedCount: result.modifiedCount
-    });
-    
-  } catch (error) {
-    console.error('Error marking contacts as seen:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Server error'
-    });
-  }
-});
-
-// GET /api/admin/contact/unseen-count - Get count of unseen contacts
-router.get('/unseen-count', async (req, res) => {
-  try {
-    const count = await Contact.countDocuments({ seen: false });
-    
-    res.json({
-      success: true,
-      data: count
-    });
-    
-  } catch (error) {
-    console.error('Error fetching unseen count:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Server error'
-    });
-  }
-});
-
-// GET /api/admin/contact/recent-unseen - Get recent unseen contacts for notifications
-router.get('/recent-unseen', async (req, res) => {
-  try {
-    const contacts = await Contact.find({ seen: false })
-      .sort({ createdAt: -1 })
-      .limit(10)
-      .select('fullName email massageType preferredDate preferredTime createdAt');
-    
-    res.json({
-      success: true,
-      data: contacts
-    });
-    
-  } catch (error) {
-    console.error('Error fetching recent unseen contacts:', error);
     res.status(500).json({
       success: false,
       message: 'Server error'
