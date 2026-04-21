@@ -117,6 +117,37 @@ router.put('/mark-all-seen', async (req, res) => {
   }
 });
 
+// PUT /api/admin/contact/:id/seen - Mark individual contact as seen
+router.put('/:id/seen', async (req, res) => {
+  try {
+    const contact = await Contact.findByIdAndUpdate(
+      req.params.id,
+      { seen: true },
+      { new: true }
+    );
+    
+    if (!contact) {
+      return res.status(404).json({
+        success: false,
+        message: 'Contact submission not found'
+      });
+    }
+    
+    res.json({
+      success: true,
+      message: 'Contact marked as seen',
+      data: contact
+    });
+    
+  } catch (error) {
+    console.error('Error marking contact as seen:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error'
+    });
+  }
+});
+
 // GET /api/admin/contact/:id - Get single contact submission
 router.get('/:id', async (req, res) => {
   try {
