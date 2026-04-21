@@ -44,7 +44,6 @@ class EmailService {
       console.error('❌ Error sending OTP email:', error);
       return false;
     }
-  }
 }
 
 module.exports = EmailService;
