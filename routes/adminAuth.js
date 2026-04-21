@@ -34,6 +34,13 @@ router.post('/send-reset-otp', (req, res) => {
 router.post('/reset-password', AdminAuthController.resetPassword);
 
 /**
+ * PUT /api/admin-auth/update-admin
+ * Update admin details
+ * Body: { adminId, username, email, role }
+ */
+router.put('/update-admin', AdminAuthController.updateAdmin);
+
+/**
  * POST /api/admin-auth/create-admin
  * Create initial admin (for setup)
  * Body: { username, email, password }

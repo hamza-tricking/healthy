@@ -95,10 +95,13 @@ class AdminAuthController {
       }
 
       // Check if email exists in admin database
+      console.log('🔍 Looking for admin with email:', email.toLowerCase().trim());
       const admin = await Admin.findOne({
         email: email.toLowerCase().trim(),
         isActive: true
       });
+      
+      console.log('🔍 Found admin:', admin ? admin.email : 'None');
 
       if (!admin) {
         return res.status(404).json({
@@ -284,13 +287,66 @@ class AdminAuthController {
   }
 
   /**
+   * Update admin
+   * @param {Object} req - Express request object
+   * @param {Object} res - Express response object
+   */
+  static async updateAdmin(req, res) {
+    try {
+      const { adminId, username, email, role } = req.body;
+      
+      if (!adminId) {
+        return res.status(400).json({
+          success: false,
+          message: 'Admin ID is required'
+        });
+      }
+
+      // Find admin by ID
+      const admin = await Admin.findById(adminId);
+      
+      if (!admin) {
+        return res.status(404).json({
+          success: false,
+          message: 'Admin not found'
+        });
+      }
+
+      // Update fields
+      if (username) admin.username = username.toLowerCase().trim();
+      if (email) admin.email = email.toLowerCase().trim();
+      if (role) admin.role = role;
+
+      await admin.save();
+
+      res.status(200).json({
+        success: true,
+        message: 'Admin updated successfully',
+        data: {
+          id: admin._id,
+          username: admin.username,
+          email: admin.email,
+          role: admin.role
+        }
+      });
+
+    } catch (error) {
+      console.error('Error in updateAdmin:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Internal server error'
+      });
+    }
+  }
+
+  /**
    * Get all admins (for management)
    * @param {Object} req - Express request object
    * @param {Object} res - Express response object
    */
   static async getAdmins(req, res) {
     try {
-      const admins = await Admin.find({})
+      const admins = await Admin.find({ isActive: true })
         .select('-password') // Exclude password from response
         .sort({ createdAt: -1 });
 

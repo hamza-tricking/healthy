@@ -14,7 +14,7 @@ const createInitialAdmin = async () => {
     const existingAdmin = await Admin.findOne({
       $or: [
         { username: 'healingadmin' },
-        { email: 'no-reply@dmtart.pro' }
+        { email: 'hamzatricks@gmail.com' }
       ]
     });
 
@@ -31,7 +31,7 @@ const createInitialAdmin = async () => {
     // Create initial admin
     const admin = new Admin({
       username: 'healingadmin',
-      email: 'no-reply@dmtart.pro',
+      email: 'hamzatricks@gmail.com',
       password: hashedPassword,
       role: 'super_admin'
     });
@@ -39,7 +39,7 @@ const createInitialAdmin = async () => {
     await admin.save();
     console.log('✅ Initial admin created successfully!');
     console.log('Username: healingadmin');
-    console.log('Email: no-reply@dmtart.pro');
+    console.log('Email: hamzatricks@gmail.com');
     console.log('Password: adminhealing');
     console.log('\n⚠️  Please change the password after first login!');
 
