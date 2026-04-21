@@ -187,28 +187,6 @@ class AdminAuthController {
       // If OTP is valid (check if verifyOTP sent success response)
       if (verifyResponse.success) {
         console.log('✅ OTP verified successfully');
-        
-        // Find the OTP record to mark it as used
-        const OTP = require('../models/OTP');
-        const otpRecord = await OTP.findOne({
-          email: email.toLowerCase().trim(),
-          otp: otp,
-          purpose: 'password_reset',
-          isUsed: false,
-          expiresAt: { $gt: new Date() }
-        });
-
-        if (!otpRecord) {
-          return res.status(400).json({
-            success: false,
-            message: 'Invalid reset code. Please check and try again.',
-            requiresNewOTP: false
-          });
-        }
-
-        // Mark OTP as used
-        otpRecord.isUsed = true;
-        await otpRecord.save();
 
         // Find admin and update password
         const admin = await Admin.findOne({
