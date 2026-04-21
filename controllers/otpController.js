@@ -38,6 +38,7 @@ class OTPController {
 
       // Generate OTP
       const otp = OTPController.generateOTP();
+      console.log('🔍 Generated OTP:', otp, 'for email:', email.toLowerCase().trim(), 'purpose:', purpose);
 
       // Clean up existing OTPs for this email and purpose
       await OTP.deleteMany({
@@ -55,6 +56,7 @@ class OTPController {
       });
 
       await otpRecord.save();
+      console.log('🔍 OTP saved to database with ID:', otpRecord._id);
 
       // Send OTP via email
       const emailSent = await EmailService.sendOTP(email, otp, purpose);
@@ -105,6 +107,14 @@ class OTPController {
       }
 
       // Find valid OTP record
+      console.log('🔍 Looking for OTP with:', {
+        email: email.toLowerCase().trim(),
+        otp,
+        purpose,
+        isUsed: false,
+        expiresAt: { $gt: new Date() }
+      });
+      
       const otpRecord = await OTP.findOne({
         email: email.toLowerCase().trim(),
         otp,
@@ -113,7 +123,22 @@ class OTPController {
         expiresAt: { $gt: new Date() }
       });
 
+      console.log('🔍 OTP record found:', !!otpRecord);
       if (!otpRecord) {
+        // Check if there's any OTP for this email/purpose combination
+        const anyOTP = await OTP.findOne({
+          email: email.toLowerCase().trim(),
+          purpose
+        });
+        console.log('🔍 Any OTP for this email/purpose:', !!anyOTP);
+        if (anyOTP) {
+          console.log('🔍 OTP details:', {
+            otp: anyOTP.otp,
+            isUsed: anyOTP.isUsed,
+            expiresAt: anyOTP.expiresAt,
+            now: new Date()
+          });
+        }
         // Update attempts if email exists
         await OTP.findOneAndUpdate(
           { email: email.toLowerCase().trim(), purpose },
