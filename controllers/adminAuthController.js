@@ -160,32 +160,54 @@ class AdminAuthController {
       }
 
       // First verify the OTP
+      console.log('🔍 Starting OTP verification for:', email.toLowerCase().trim());
+      console.log('🔍 OTP code provided:', otp);
+      
+      // Create a mock response object for OTP verification
+      const mockRes = {
+        status: (code) => code === 200 ? 'success' : 'error',
+        json: (data) => ({ success: data.success, data: data.data })
+      };
+      
       const verifyResponse = await OTPController.verifyOTP({
         body: {
           email: email.toLowerCase().trim(),
           otp: otp,
           purpose: 'password_reset'
         }
-      }, res);
+      }, mockRes);
+      
+      console.log('🔍 OTP verification response:', verifyResponse);
 
       // If OTP is valid (check if verifyOTP sent success response)
-      // We need to manually check the OTP since the controller sends response directly
-      const OTP = require('../models/OTP');
-      const otpRecord = await OTP.findOne({
-        email: email.toLowerCase().trim(),
-        otp: otp,
-        purpose: 'password_reset',
-        isUsed: false,
-        expiresAt: { $gt: new Date() }
-      });
-
-      if (!otpRecord) {
-        return res.status(400).json({
-          success: false,
-          message: 'Invalid or expired reset code'
+      if (verifyResponse.success) {
+        console.log('✅ OTP verified successfully');
+        
+        // Find the actual OTP record
+        const OTP = require('../models/OTP');
+        const otpRecord = await OTP.findOne({
+          email: email.toLowerCase().trim(),
+          otp: otp,
+          purpose: 'password_reset',
+          isUsed: false,
+          expiresAt: { $gt: new Date() }
         });
-      }
 
+        if (!otpRecord) {
+          console.log('❌ OTP verification failed');
+          return res.status(400).json({
+            success: false,
+            message: 'Invalid or expired reset code'
+          });
+        } else {
+          console.log('❌ OTP verification failed - verifyResponse.success:', verifyResponse.success);
+          console.log('❌ verifyResponse data:', verifyResponse.data);
+          return res.status(400).json({
+            success: false,
+            message: 'Invalid or expired reset code'
+          });
+        }
+      
       // Find admin and update password
       const admin = await Admin.findOne({
         email: email.toLowerCase().trim(),
@@ -216,6 +238,7 @@ class AdminAuthController {
         success: true,
         message: 'Password reset successful. You can now login with your new password.'
       });
+      }
 
     } catch (error) {
       console.error('Error in resetPassword:', error);
