@@ -40,12 +40,12 @@ class OTPController {
       const otp = OTPController.generateOTP();
       console.log('🔍 Generated OTP:', otp, 'for email:', email.toLowerCase().trim(), 'purpose:', purpose);
 
-      // Clean up existing OTPs for this email and purpose
+      // Clean up existing OTPs for this email and purpose (both unused and expired)
       await OTP.deleteMany({
         email: email.toLowerCase().trim(),
-        purpose,
-        isUsed: false
+        purpose
       });
+      console.log('🔍 Cleaned up existing OTPs for:', email.toLowerCase().trim(), 'purpose:', purpose);
 
       // Save OTP to database
       const otpRecord = new OTP({
@@ -76,6 +76,7 @@ class OTPController {
         data: {
           email: email.toLowerCase().trim(),
           purpose,
+          otp: otp, // Include OTP for debugging (remove in production)
           expiresIn: 10 * 60 * 1000 // 10 minutes in milliseconds
         }
       });
