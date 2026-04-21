@@ -196,9 +196,8 @@ class AdminAuthController {
         if (latestOTP && latestOTP.otp !== otp) {
           return res.status(400).json({
             success: false,
-            message: `Invalid reset code. A new code was sent. Please use the latest code: ${latestOTP.otp}`,
-            requiresNewOTP: false,
-            latestOTP: latestOTP.otp
+            message: 'Invalid reset code. A new code has been sent. Please check your email and use the latest code.',
+            requiresNewOTP: false
           });
         } else if (latestOTP && latestOTP.isUsed) {
           return res.status(400).json({

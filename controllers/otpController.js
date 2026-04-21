@@ -76,7 +76,6 @@ class OTPController {
         data: {
           email: email.toLowerCase().trim(),
           purpose,
-          otp: otp, // Include OTP for debugging (remove in production)
           expiresIn: 10 * 60 * 1000 // 10 minutes in milliseconds
         }
       });
