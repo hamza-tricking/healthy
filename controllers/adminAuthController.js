@@ -183,32 +183,44 @@ class AdminAuthController {
       // If OTP is valid (check if verifyOTP sent success response)
       if (verifyResponse.success) {
         console.log('✅ OTP verified successfully');
+      } else {
+        console.log('❌ OTP verification failed');
         
-        // Find the actual OTP record
+        // Check if there's a newer OTP available
         const OTP = require('../models/OTP');
-        const otpRecord = await OTP.findOne({
+        const latestOTP = await OTP.findOne({
           email: email.toLowerCase().trim(),
-          otp: otp,
-          purpose: 'password_reset',
-          isUsed: false,
-          expiresAt: { $gt: new Date() }
-        });
-
-        if (!otpRecord) {
-          console.log('❌ OTP verification failed');
+          purpose: 'password_reset'
+        }).sort({ createdAt: -1 });
+        
+        if (latestOTP && latestOTP.otp !== otp) {
           return res.status(400).json({
             success: false,
-            message: 'Invalid or expired reset code'
+            message: `Invalid reset code. A new code was sent. Please use the latest code: ${latestOTP.otp}`,
+            requiresNewOTP: false,
+            latestOTP: latestOTP.otp
+          });
+        } else if (latestOTP && latestOTP.isUsed) {
+          return res.status(400).json({
+            success: false,
+            message: 'This reset code has already been used. Please request a new one.',
+            requiresNewOTP: true
+          });
+        } else if (latestOTP && new Date() > latestOTP.expiresAt) {
+          return res.status(400).json({
+            success: false,
+            message: 'This reset code has expired. Please request a new one.',
+            requiresNewOTP: true
           });
         } else {
-          console.log('❌ OTP verification failed - verifyResponse.success:', verifyResponse.success);
-          console.log('❌ verifyResponse data:', verifyResponse.data);
           return res.status(400).json({
             success: false,
-            message: 'Invalid or expired reset code'
+            message: 'Invalid reset code. Please check and try again.',
+            requiresNewOTP: false
           });
         }
-      
+      }
+
       // Find admin and update password
       const admin = await Admin.findOne({
         email: email.toLowerCase().trim(),
@@ -239,7 +251,6 @@ class AdminAuthController {
         success: true,
         message: 'Password reset successful. You can now login with your new password.'
       });
-      }
 
     } catch (error) {
       console.error('Error in resetPassword:', error);
